@@ -164,9 +164,10 @@
     <input type="number" id="total-count" title="Use it to specify how many QR codes will be generated." placeholder="Count (1-100)">
     <input type="number" id="digits-count" title="Use it to specify how many digits the generated QR codes will consist of." placeholder="Number of digits (e.g. 5)">
 	<input type="text" id="prefix" title="Use it to convert 'content' to 'PREFIXcontent' when QR code generation happens." placeholder="Add prefix (optional)">
-	<input type="text" id="pr-codes" title="Use it to manually generate a list to QR codes via an list type of input. e.g. 'QRcontent1,QRcontent2,QRcontent3'" placeholder="Manual list entry">
+	<input type="text" id="manual-codes" title="Use it to manually generate a list to QR codes via an list type of input. e.g. 'QRcontent1,QRcontent2,QRcontent3'" placeholder="Manual list entry">
     
     <button id="generateList" onclick="generateMultipleQRCodes()">Generate QRs</button>
+	<button id="export-csv-button" onclick="exportQRCodeAsCSV()" disabled>Export QRs as CSV</button>
     <button id="export-button" onclick="exportQRCodeAsImage()" disabled>Download QRs image</button>
     <button id="copy-button" onclick="copyQRCodeToClipboard()" disabled>Copy QRs image to Clipboard</button>
   </div>
@@ -190,17 +191,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const prefixField = document.getElementById("prefix");
     const digitsCountField = document.getElementById("digits-count");
     const totalCountField = document.getElementById("total-count");
-    const prCodesInputField = document.getElementById("pr-codes");
+    const manualCodesInputField = document.getElementById("manual-codes");
 	const generateListButton = document.getElementById("generateList");
 
-    function lockPrCodesField() {
-        prCodesInputField.setAttribute("readonly", true); // Disable typing
-		prCodesInputField.style.opacity = "0.25";
+    function lockManualCodesField() {
+        manualCodesInputField.setAttribute("readonly", true); // Disable typing
+		manualCodesInputField.style.opacity = "0.25";
     }
 
-    function unlockPrCodesField() {
-        prCodesInputField.removeAttribute("readonly"); // Enable typing
-		prCodesInputField.style.opacity = "1";
+    function unlockManualCodesField() {
+        manualCodesInputField.removeAttribute("readonly"); // Enable typing
+		manualCodesInputField.style.opacity = "1";
     }
 	
 	function lockManualFields() {
@@ -218,31 +219,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		totalCountField.style.opacity = "1";
     }
 
-    function enablePrCodesSelection() {
-        prCodesInputField.style.userSelect = "all"; // Allow text selection
+    function enableManualCodesSelection() {
+        manualCodesInputField.style.userSelect = "all"; // Allow text selection
     }
 
-    function checkFieldsAndTogglePrCodes() {
+    function checkFieldsAndToggleManualCodes() {
         if (digitsCountField.value.trim() || totalCountField.value.trim()) {
-            lockPrCodesField(); // Disable typing if any field has a value
+            lockManualCodesField(); // Disable typing if any field has a value
         } 
-		else if (prCodesInputField.value.trim()) {
+		else if (manualCodesInputField.value.trim()) {
 			lockManualFields();
 		}
 		else {
-            unlockPrCodesField(); // Enable typing if all fields are empty
-			unlockManualFields();
+            unlockManualCodesField(); // Enable typing if all fields are empty
+			unlockManualFieldss();
         }
     }
 
     // Attach event listeners to detect changes in prefix, digits-count, or total-count
-    prefixField.addEventListener("input", checkFieldsAndTogglePrCodes);
-    digitsCountField.addEventListener("input", checkFieldsAndTogglePrCodes);
-    totalCountField.addEventListener("input", checkFieldsAndTogglePrCodes);
-	prCodesInputField.addEventListener("input", checkFieldsAndTogglePrCodes);
+    prefixField.addEventListener("input", checkFieldsAndToggleManualCodes);
+    digitsCountField.addEventListener("input", checkFieldsAndToggleManualCodes);
+    totalCountField.addEventListener("input", checkFieldsAndToggleManualCodes);
+	manualCodesInputField.addEventListener("input", checkFieldsAndToggleManualCodes);
 
-    // Ensure the pr-codes field is selectable
-    prCodesInputField.addEventListener("focus", enablePrCodesSelection);
+    // Ensure the manual-codes field is selectable
+    manualCodesInputField.addEventListener("focus", enableManualCodesSelection);
 });
 
 
@@ -250,45 +251,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function generateMultipleQRCodes() {
     const prefixField = document.getElementById("prefix");
-    const prCodesInputField = document.getElementById("pr-codes");
+    const manualCodesInputField = document.getElementById("manual-codes");
     const digitsCountField = document.getElementById("digits-count");
     const totalCountField = document.getElementById("total-count");
-	const generateListButton = document.getElementById("generateList");
+    const generateListButton = document.getElementById("generateList");
 
-    let prCodes = [];
-    let useAutoGeneration = false; // Flag to track if we're using auto generation
+    let manualCodes = [];
+    const prefix = prefixField.value.trim();  // Get the prefix value
 
-    if (prCodesInputField.value.trim()) {
+    if (manualCodesInputField.value.trim()) {
         // Manual method
-        prCodes = prCodesInputField.value.split(',').map(code => code.trim()).filter(Boolean);
+        manualCodes = manualCodesInputField.value.split(',').map(code => code.trim()).filter(Boolean);
+        
+        // Apply the prefix to each code
+        manualCodes = manualCodes.map(code => `${prefix}${code}`);
+        console.log("Generated QR codes: ", manualCodes);
+
+        // Update the manual-codes input field with the modified codes
+        manualCodesInputField.value = manualCodes.join(','); // Update the field with prefixed codes
     } else {
         // Auto generation method
         const digitsCount = parseInt(digitsCountField.value.trim(), 10);
         const totalCount = parseInt(totalCountField.value.trim(), 10);
-        const prefix = prefixField.value.trim();
-        
+
         if (isNaN(digitsCount) || isNaN(totalCount)) {
             alert("Please provide valid digits count and total count to generate numbers.");
             return;
         }
 
-        prCodes = generateNumbers(digitsCount, totalCount, prefix);
-        prCodesInputField.value = prCodes.join(','); // Update the field
-
-        // Set useAutoGeneration to true only if conditions are met
-        if (prCodesInputField !== null && digitsCount >= 1 && totalCount >= 1) {
-            useAutoGeneration = true;
-        }
+        manualCodes = generateNumbers(digitsCount, totalCount, prefix);
+        manualCodesInputField.value = manualCodes.join(','); // Update the field with generated numbers
     }
-    
-    const prefix = prefixField.value.trim();
-	// Apply the prefix either way
-	prCodes = prCodes.map(code => `${prefix}${code}`);
 
-    // Clear only the digits count & total count fields (and prefix if auto-generated)
+    // Clear and hide fields
     digitsCountField.value = "";
     totalCountField.value = "";
-	prefixField.value = "";
+    prefixField.value = "";
 	
 	digitsCountField.setAttribute("readonly", true); // Disable typing
 	digitsCountField.style.display = "none";
@@ -296,10 +294,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	totalCountField.style.display = "none";
     prefixField.setAttribute("readonly", true); // Disable typing
 	prefixField.style.display = "none";
-	prCodesInputField.setAttribute("readonly", true); // Disable typing
-	prCodesInputField.style.opacity = "1";
-	prCodesInputField.style.backgroundColor = "lightgray";
+	manualCodesInputField.setAttribute("readonly", true); // Disable typing
+	manualCodesInputField.style.opacity = "1";
+	manualCodesInputField.style.backgroundColor = "lightgray";
 	generateListButton.style.display = "none";
+	document.getElementById("export-csv-button").disabled = false;
 
     // Clear the QR container
     const qrContainer = document.getElementById('qr-container');
@@ -307,30 +306,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const qrSize = 200;
 
-    prCodes.forEach((prCode, index) => {
+    manualCodes.forEach((prCode, index) => {
         QRCode.toDataURL(prCode, { width: qrSize, margin: 1 }, function (err, url) {
             if (err) {
                 console.error(err);
                 alert("Error generating QR code!");
                 return;
             }
-
+			
             const qrCodeDiv = document.createElement('div');
             qrCodeDiv.classList.add('qr-code-item');
-
+			
             const qrImage = new Image();
             qrImage.src = url;
             qrImage.style.maxWidth = "100%";
             qrImage.width = qrSize;
-
+			
             const qrText = document.createElement('div');
             qrText.classList.add('qr-text');
             qrText.innerText = prCode;
-
+			
             const serialNumberDiv = document.createElement('div');
             serialNumberDiv.classList.add('serial-number');
             serialNumberDiv.innerText = (index + 1);
-
+			
             qrCodeDiv.appendChild(qrImage);
             qrCodeDiv.appendChild(qrText);
             qrCodeDiv.appendChild(serialNumberDiv);
@@ -362,6 +361,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return number;
   }
+  
+  function exportQRCodeAsCSV() {
+    const manualCodesInputField = document.getElementById("manual-codes");
+
+    if (!manualCodesInputField.value.trim()) {
+        alert("No QR codes available to export!");
+        return;
+    }
+
+    const manualCodes = manualCodesInputField.value.split(',').map(code => code.trim()).filter(Boolean);
+    const csvContent = manualCodes.join(','); // Join values with commas
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = "qr_codes.csv";
+    downloadLink.click();
+}
+
 
   function exportQRCodeAsImage() {
     const qrContainer = document.getElementById('qr-container');
