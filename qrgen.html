@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiple QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Floating Buttons for QR Codes Tool and Refresh -->
+    <div class="floating-buttons">
+      <button onclick="navigateSplit()" title="CSV file spliter">
+        <i class="fas fa-columns"></i>
+      </button>
+      <button onclick="refreshPage()" title="Refresh Page">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+
+    <div class="container">
+      <h2>QR Codes Tool</h2>
+      <p>Generate up to 100 QR codes based on your entries.</p>
+
+      <div class="buttonsContainer">
+        <input
+          type="number"
+          id="total-count"
+          title="Use it to specify how many QR codes will be generated."
+          placeholder="Count (1-100)"
+        />
+        <input
+          type="number"
+          id="digits-count"
+          title="Use it to specify how many digits the generated QR codes will consist of."
+          placeholder="Number of digits (e.g. 5)"
+        />
+        <input
+          type="text"
+          id="prefix"
+          title="Use it to convert 'content' to 'PREFIXcontent' when QR code generation happens."
+          placeholder="Add prefix (optional)"
+        />
+        <input
+          type="text"
+          id="manual-codes"
+          title="Use it to manually generate a list to QR codes via an list type of input. e.g. 'QRcontent1,QRcontent2,QRcontent3'"
+          placeholder="Manual list entry"
+        />
+        <input
+          type="url"
+          id="qrPrintLogoUrl"
+          placeholder="Enter QR image URL (optional)"
+        />
+        <div class="color-picker-container" id="color-picker-container">
+          <label for="color-picker">Choose QR code background color:</label>
+          <input
+            class="color-square"
+            type="color"
+            id="color-picker"
+            value="#888888"
+            onchange="changeColor()"
+          />
+        </div>
+
+        <button id="generateList" onclick="generateMultipleQRCodes()">
+          <i 
+            class="fas fa-qrcode" 
+            style="margin-right: 10px">
+          </i>
+          Generate QRs
+        </button>
+        <button id="export-csv-button" onclick="exportQRCodeAsCSV()" disabled>
+          <i
+            class="fa-solid fa-download"
+            id="uploadIcon"
+            style="margin-right: 10px"
+          ></i>
+          Download generated codes as CSV
+        </button>
+        <button id="export-button" onclick="exportQRCodeAsImage()" disabled>
+          <i
+            class="fa-solid fa-download"
+            id="uploadIcon"
+            style="margin-right: 10px"
+          ></i>
+          Download QRs image
+        </button>
+        <button id="copy-button" onclick="copyQRCodeToClipboard()" disabled>
+          <i
+            class="fa-solid fa-copy"
+            id="uploadIcon"
+            style="margin-right: 10px"
+          ></i>
+          Copy QRs image to Clipboard
+        </button>
+      </div>
+
+      <div id="qr-container">
+        <!-- QR codes will be appended here -->
+      </div>
+    </div>
+    <script src="qrgen.js"></script>
+  </body>
+</html>

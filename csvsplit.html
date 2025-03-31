@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV Splitter and Duplicate Finder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Floating Buttons for QR Codes Tool and Refresh -->
+    <div class="floating-buttons">
+      <button onclick="navigateQR()" title="QR Codes Tool">
+        <i class="fas fa-qrcode"></i>
+      </button>
+      <button onclick="refreshPage()" title="Refresh Page">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+
+    <div class="container">
+      <h2>CSV file spliter</h2>
+      <p>Upload a CSV file to split or check it for duplicates.</p>
+
+      <div class="buttonsContainer">
+        <!-- File input wrapped inside a label for visual consistency -->
+        <label
+          for="csvFile"
+          class="file-button"
+          id="fileButton"
+          title="Contents of CSV must be like PR1,PR2,PR3,PR4"
+        >
+          <i
+            class="fa-solid fa-upload"
+            id="uploadIcon"
+            style="margin-right: 10px"
+          ></i>
+          Upload CSV File
+        </label>
+        <input
+          type="file"
+          id="csvFile"
+          accept=".csv"
+          onchange="updateFileName()"
+        />
+        <input
+          type="text"
+          id="splitCount"
+          placeholder="Enter number or percentage (e.g. 50 or 20%)"
+        />
+
+        <button onclick="splitCSV()">
+          <i 
+            class="fas fa-columns" 
+            style="margin-right: 10px">
+          </i>
+          Split CSV
+        </button>
+        <button onclick="findDuplicates()">
+          <i 
+            class="fa-solid fa-clone" 
+            style="margin-right: 10px">
+          </i>
+          Find Duplicates
+        </button>
+      </div>
+      <div id="duplicateList"></div>
+    </div>
+    <script src="csvsplit.js"></script>
+  </body>
+</html>
