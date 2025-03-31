@@ -152,8 +152,10 @@ function generateMultipleQRCodes() {
 
         if (qrPrintLogoUrl.value) {
           const qrLogo = new Image();
-          qrLogo.classList.add("qr-logo");
           qrLogo.src = qrPrintLogoUrl.value;
+          qrLogo.classList.add("qr-logo");
+          qrLogo.style.width = "58%";
+          qrLogo.style.margin = "0 0 100px 0";
 
           qrCodeDiv.appendChild(qrLogo);
         } else {
@@ -185,6 +187,39 @@ function generateMultipleQRCodes() {
   document.getElementById("copy-button").disabled = false;
   changeColor();
 }
+
+function downloadQRCodeAsZip() {
+  const qrContainer = document.getElementById("qr-container");
+
+  if (!qrContainer.hasChildNodes()) {
+    alert("Please generate QR codes first!");
+    return;
+  }
+
+  const zip = new JSZip();
+  const qrCodeItems = document.querySelectorAll("[id^='qr_print_']");
+
+  qrCodeItems.forEach((qrCodeDiv, index) => {
+    html2canvas(qrCodeDiv, { backgroundColor: null }).then((canvas) => {
+      canvas.toBlob((blob) => {
+        const filename = `qr_print_${index + 1}.png`;
+
+        
+        zip.file(filename, blob);
+
+        
+        if (index === qrCodeItems.length - 1) {
+          zip.generateAsync({ type: "blob" }).then((content) => {
+            saveAs(content, "qr_print_images.zip");
+          });
+        }
+      });
+    }).catch((error) => {
+      console.error("Error capturing QR code as image:", error);
+    });
+  });
+}
+
 
 function generateNumbers(digitsCount, totalCount, prefix) {
   const numbers = new Set();
@@ -314,6 +349,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (qrPrintLogoUrl.value.trim()) {
       localStorage.setItem("qrPrintLogo", qrPrintLogoUrl.value);
     }
+    else if (!qrPrintLogoUrl.value || qrPrintLogoUrl.value.trim() === "") {
+      localStorage.removeItem("qrPrintLogo");
+    }
+
   });
 });
 
@@ -360,6 +399,11 @@ function getLuminance(hex) {
 }
 
 // Function to navigate to home
+function navigateHome() {
+  window.location.href = "/QR_Codes_Tool";
+}
+
+// Function to navigate to split
 function navigateSplit() {
   window.location.href = "/QR_Codes_Tool/csvsplit.html";
 }

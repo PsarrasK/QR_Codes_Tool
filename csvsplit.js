@@ -151,6 +151,11 @@ function downloadCSV(content, filename) {
 }
 
 // Function to navigate to home
+function navigateHome() {
+  window.location.href = "/QR_Codes_Tool";
+}
+
+// Function to navigate to qr
 function navigateQR() {
   window.location.href = "/QR_Codes_Tool/qrgen.html";
 }

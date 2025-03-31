@@ -99,8 +99,8 @@ button:disabled {
 
 .floating-buttons {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 13px;
+  right: 13px;
   display: flex;
   flex-direction: column;
 }
@@ -109,8 +109,8 @@ button:disabled {
   background-color: black;
   color: white;
   border: 2px solid transparent;
-  width: 50px;
-  height: 50px;
+  width: 42px;
+  height: 42px;
   padding: 10px;
   margin: 5px;
   font-size: 16px;
@@ -194,11 +194,6 @@ input#digits-count {
 .qr-demo-wrapper {
   padding-bottom: 130px;
   max-width: 100%;
-}
-
-.qr-logo {
-  width: 58%;
-  margin-bottom: 100px;
 }
 
 .qr-text-content {

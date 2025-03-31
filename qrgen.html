@@ -6,6 +6,9 @@
     <title>Multiple QR Code Generator</title>
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -15,6 +18,9 @@
   <body>
     <!-- Floating Buttons for QR Codes Tool and Refresh -->
     <div class="floating-buttons">
+      <button onclick="navigateHome()" title="Navigate to home page">
+        <i class="fa-solid fa-house"></i>
+      </button>
       <button onclick="navigateSplit()" title="CSV file spliter">
         <i class="fas fa-columns"></i>
       </button>
@@ -25,14 +31,14 @@
 
     <div class="container">
       <h2>QR Codes Tool</h2>
-      <p>Generate up to 100 QR codes based on your entries.</p>
+      <p>Generate codes and QR codes based on your entries.</p>
 
       <div class="buttonsContainer">
         <input
           type="number"
           id="total-count"
           title="Use it to specify how many QR codes will be generated."
-          placeholder="Count (1-100)"
+          placeholder="Count (Up to 100 for low latency)"
         />
         <input
           type="number"
@@ -55,7 +61,8 @@
         <input
           type="url"
           id="qrPrintLogoUrl"
-          placeholder="Enter QR image URL (optional)"
+          title="Paste your image in a base64 format e.g. 'data:image/png;base64,iVBORw0...'"
+          placeholder="Enter logo image URL in base64 format (optional)"
         />
         <div class="color-picker-container" id="color-picker-container">
           <label for="color-picker">Choose QR code background color:</label>
@@ -83,15 +90,15 @@
           ></i>
           Download generated codes as CSV
         </button>
-        <button id="export-button" onclick="exportQRCodeAsImage()" disabled>
+        <button id="export-button" onclick="downloadQRCodeAsZip()" disabled>
           <i
             class="fa-solid fa-download"
             id="uploadIcon"
             style="margin-right: 10px"
           ></i>
-          Download QRs image
+          Download generated images in a ZIP
         </button>
-        <button id="copy-button" onclick="copyQRCodeToClipboard()" disabled>
+        <button id="copy-button" style="display: none" onclick="copyQRCodeToClipboard()" disabled>
           <i
             class="fa-solid fa-copy"
             id="uploadIcon"
