@@ -64,6 +64,8 @@ function generateMultipleQRCodes() {
   const digitsCountField = document.getElementById("digits-count");
   const totalCountField = document.getElementById("total-count");
   const generateListButton = document.getElementById("generateList");
+  const printLogoUploadFieldLabel = document.getElementById("qrPrintLogoUploadLabel");
+  const printLogoUploadField = document.getElementById("qrPrintLogoUpload");
   const printLogoInputField = document.getElementById("qrPrintLogo");
   const printColorInputField = document.getElementById(
     "color-picker-container"
@@ -115,10 +117,22 @@ function generateMultipleQRCodes() {
   manualCodesInputField.setAttribute("readonly", true); // Disable typing
   manualCodesInputField.style.opacity = "1";
   manualCodesInputField.style.backgroundColor = "lightgray";
+  manualCodesInputField.title = "Cannot edit codes after generation. Refresh page to start over.";
+  manualCodesInputField.style.cursor = "not-allowed";
   generateListButton.style.display = "none";
   document.getElementById("export-csv-button").disabled = false;
-  printLogoInputField.style.display = "none";
-  printColorInputField.style.display = "none";
+  printLogoInputField.setAttribute("readonly", true); // Disable typing
+  printLogoInputField.style.opacity = "1";
+  printLogoInputField.style.backgroundColor = "lightgray";
+  printLogoInputField.style.cursor = "not-allowed";
+  printLogoUploadFieldLabel.setAttribute("readonly", true); // Disable typing
+  printLogoUploadFieldLabel.style.opacity = "1";
+  printLogoUploadFieldLabel.style.backgroundColor = "lightgray";
+  document.getElementById("qrPrintLogoUpload").disabled = true;
+  printLogoUploadFieldLabel.style.cursor = "not-allowed";
+  printLogoUploadField.setAttribute("readonly", true); // Disable typing
+  printLogoUploadField.style.opacity = "1";
+  printLogoUploadField.style.backgroundColor = "lightgray";
 
   // Clear the QR container
   const qrContainer = document.getElementById("qr-container");

@@ -19,8 +19,8 @@ function updateFileName() {
       }
       else {
         // Remove the cloud upload icon and add the file icon
-      uploadIcon.classList.remove("fa-cloud-upload-alt");
-      uploadIcon.classList.add("fa-file");
+      uploadIcon?.classList.remove("fa-solid","fa-upload");
+      uploadIcon?.classList.add("fa-file");
 
       // Change the button background and text to show the file name with code count
       fileButton.classList.add("uploaded");
@@ -29,10 +29,10 @@ function updateFileName() {
     reader.readAsText(file);
   } else {
     // Reset the button appearance if no file is uploaded
-    uploadIcon.classList.remove("fa-file");
-    uploadIcon.classList.add("fa-cloud-upload-alt");
-    fileButton.classList.remove("uploaded");
-    fileButton.innerHTML = `<i class="fas fa-cloud-upload-alt" style="margin-right: 10px;"></i> Upload CSV File`;
+    uploadIcon?.classList.remove("fa-file");
+    uploadIcon?.classList.add("fa-solid fa-upload");
+    fileButton?.classList.remove("uploaded");
+    fileButton.innerHTML = `<i class="fa-solid fa-upload style="margin-right: 10px;"></i> Upload CSV File`;
   }
 }
 

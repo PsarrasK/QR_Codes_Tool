@@ -23,7 +23,7 @@
 
     <div class="container">
       <h2>CSV file spliter</h2>
-      <p>Upload a CSV file to split or check it for duplicates.</p>
+      <p>Upload a CSV file to split and/or check it for duplicates.</p>
 
       <div class="buttonsContainer">
         <!-- File input wrapped inside a label for visual consistency -->
@@ -52,17 +52,19 @@
           placeholder="Enter number or percentage (e.g. 50 or 20%)"
         />
 
+        <hr/>
+
         <button onclick="findDuplicates()">
           <i class="fa-solid fa-clone" style="margin-right: 10px"> </i>
           Find Duplicates
         </button>
         <div id="duplicateList"></div>
 
-        <hr />
+        <hr/>
 
         <button onclick="splitCSV()">
           <i class="fas fa-columns" style="margin-right: 10px"> </i>
-          Split CSV
+          Split CSV and download parts
         </button>
 
       </div>

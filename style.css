@@ -71,12 +71,6 @@ input[type="file"] {
   justify-content: center;
 }
 
-.file-button.uploaded:hover {
-  color: white;
-  opacity: 0.8;
-  background-color: #1a1a1a;
-}
-
 .file-button:hover {
   opacity: 0.8;
 }
@@ -103,7 +97,7 @@ button:disabled {
 }
 
 #duplicateList {
-  margin-top: 20px;
+  margin-top: 10px;
   background-color: #1a1a1acc;
   color: white;
   border-radius: 10px;
