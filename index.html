@@ -19,11 +19,14 @@
       <p>Choose a function to continue.</p>
 
       <div class="buttonsContainer">
+        <button onclick="navigateQR()" title="Generate up to 100 codes and QR codes based on your entries.">
+          <i class="fas fa-qrcode" style="margin-right: 10px"></i>Generate QR codes
+        </button>
+        <button onclick="navigateCodeGen()" title="Generate a list of codes and copy or export it to CSV.">
+          <i class="fa-solid fa-list" style="margin-right: 10px"></i>Generate a list of codes
+      </button>
         <button onclick="navigateSplit()" title="Upload a CSV file in order to split it in two files or check it for duplicates.">
             <i class="fas fa-columns" style="margin-right: 10px"></i>Split a CSV file in two files
-        </button>
-        <button onclick="navigateQR()" title="Generate up to 100 codes and QR codes based on your entries.">
-            <i class="fas fa-qrcode" style="margin-right: 10px"></i>Generate QR codes
         </button>
         </div>
     <script>
@@ -33,6 +36,10 @@
 
         function navigateQR() {
             window.location.href = "/QR_Codes_Tool/qrgen.html";
+        }
+
+        function navigateCodeGen() {
+            window.location.href = "/QR_Codes_Tool/codegen.html";
         }
 
         // Function to refresh the page

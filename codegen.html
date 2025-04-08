@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code List Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Floating Buttons for QR Codes Tool and Refresh -->
+    <div class="floating-buttons">
+      <button onclick="navigateHome()" title="Navigate to home page">
+        <i class="fa-solid fa-house"></i>
+      </button>
+      <button onclick="refreshPage()" title="Refresh Page">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+
+    <div class="container">
+      <h2>QR Codes Tool</h2>
+      <p>Generate codes based on your entries:</p>
+
+      <div class="buttonsContainer">
+        <input
+          type="number"
+          id="total-count"
+          title="Use it to specify how many codes will be generated."
+          placeholder="Count (Up to 100 for low latency)"
+        />
+        <input
+          type="number"
+          id="digits-count"
+          title="Use it to specify how many digits the generated codes will consist of."
+          placeholder="Number of digits (e.g. 5)"
+        />
+        <input
+          type="text"
+          id="prefix"
+          title="Use it to convert 'content' to 'PREFIXcontent' when code generation happens."
+          placeholder="Add prefix (optional)"
+        />
+        <input
+          type="text"
+          id="manual-codes"
+          title="Use it to manually generate a list of codes using a manually input. e.g. 'QRcontent1,QRcontent2,QRcontent3'"
+          placeholder="Manual list entry"
+          readonly
+          style="display: none;"
+        />
+
+        <hr>
+
+        <button id="generateList" onclick="generateMultipleQRCodes()">
+          <i 
+            class="fa-solid fa-list" 
+            style="margin-right: 10px">
+          </i>
+          Generate codes
+        </button>
+        <button id="export-csv-button" onclick="exportCodesAsCSV()" disabled>
+          <i
+            class="fa-solid fa-download"
+            id="uploadIcon"
+            style="margin-right: 10px"
+          ></i>
+          Download generated codes as CSV
+        </button>
+      </div>
+
+      <div id="qr-container">
+        <!-- QR codes will be appended here -->
+      </div>
+    </div>
+    <script src="codegen.js"></script>
+  </body>
+</html>

@@ -12,6 +12,12 @@ h2 {
   margin-bottom: 20px;
 }
 
+hr {
+  border-top: 2px solid #1a1a1a;
+  opacity: 0.5;
+  margin: 20px 0 10px 0;
+}
+
 .container {
   margin: 0 auto;
   padding: 20px 20px 50px 20px;
@@ -29,8 +35,21 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: 400px;
+  width: 550px;
   max-width: 100%;
+}
+
+.buttonsContainerHorizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 700px;
+  max-width: 100%;
+  gap: 10px;
+}
+
+.buttonsContainerHorizontal > * {
+  width: 100%;
 }
 
 input[type="file"] {
@@ -40,7 +59,7 @@ input[type="file"] {
 .file-button {
   background-color: transparent;
   border: 2px solid #1a1a1a;
-  padding: 10px 0px;
+  padding: 10px;
   margin-top: 10px;
   cursor: pointer;
   border-radius: 10px;
@@ -89,7 +108,6 @@ button:disabled {
   color: white;
   border-radius: 10px;
   display: none;
-  width: 400px;
   max-width: 100%;
 }
 
@@ -141,26 +159,27 @@ input#digits-count {
 }
 
 .color-picker-container {
+  border: 2px solid #1a1a1a;
+  padding: 10px;
   margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 10px 0;
-  flex-wrap: wrap;
-  width: 100%;
   border-radius: 10px;
+  font-size: 16px;
+  color: #1a1a1a;
+  text-align: center;
+  transition: opacity 0.3s ease;
+  align-items: center;
 }
 
 .color-square {
-  height: 25px;
-  width: 95%;
-  margin: unset;
+  cursor: pointer;
+  height: 30px;
+  min-width: 60%;
+  width: 100%;
+  margin: auto;
   background-color: transparent;
   border: unset;
   padding: unset;
-  border-radius: 10px;
-  clip-path: inset(6px round 5px);
+  clip-path: inset(6px round 10px);
 }
 
 #qr-container {
@@ -193,7 +212,7 @@ input#digits-count {
 
 .qr-demo-wrapper {
   padding-bottom: 130px;
-  max-width: 100%;
+  width: 100%;
 }
 
 .qr-text-content {
@@ -214,13 +233,4 @@ input#digits-count {
   font-size: 24px;
   text-align: center;
   transition: color 0.2s ease;
-}
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
 }

@@ -16,9 +16,6 @@
       <button onclick="navigateHome()" title="Navigate to home page">
         <i class="fa-solid fa-house"></i>
       </button>
-      <button onclick="navigateQR()" title="QR Codes Tool">
-        <i class="fas fa-qrcode"></i>
-      </button>
       <button onclick="refreshPage()" title="Refresh Page">
         <i class="fas fa-sync-alt"></i>
       </button>
@@ -55,22 +52,20 @@
           placeholder="Enter number or percentage (e.g. 50 or 20%)"
         />
 
-        <button onclick="splitCSV()">
-          <i 
-            class="fas fa-columns" 
-            style="margin-right: 10px">
-          </i>
-          Split CSV
-        </button>
         <button onclick="findDuplicates()">
-          <i 
-            class="fa-solid fa-clone" 
-            style="margin-right: 10px">
-          </i>
+          <i class="fa-solid fa-clone" style="margin-right: 10px"> </i>
           Find Duplicates
         </button>
+        <div id="duplicateList"></div>
+
+        <hr />
+
+        <button onclick="splitCSV()">
+          <i class="fas fa-columns" style="margin-right: 10px"> </i>
+          Split CSV
+        </button>
+
       </div>
-      <div id="duplicateList"></div>
     </div>
     <script src="csvsplit.js"></script>
   </body>

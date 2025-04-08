@@ -64,7 +64,7 @@ function generateMultipleQRCodes() {
   const digitsCountField = document.getElementById("digits-count");
   const totalCountField = document.getElementById("total-count");
   const generateListButton = document.getElementById("generateList");
-  const printLogoInputField = document.getElementById("qrPrintLogoUrl");
+  const printLogoInputField = document.getElementById("qrPrintLogo");
   const printColorInputField = document.getElementById(
     "color-picker-container"
   );
@@ -122,7 +122,7 @@ function generateMultipleQRCodes() {
 
   // Clear the QR container
   const qrContainer = document.getElementById("qr-container");
-  const qrPrintLogoUrl = document.getElementById("qrPrintLogoUrl");
+  const qrPrintLogo = document.getElementById("qrPrintLogo");
   qrContainer.innerHTML = "";
 
   const qrSize = 200;
@@ -150,9 +150,9 @@ function generateMultipleQRCodes() {
 
         qrCodeDiv.appendChild(qrImage);
 
-        if (qrPrintLogoUrl.value) {
+        if (qrPrintLogo.value) {
           const qrLogo = new Image();
-          qrLogo.src = qrPrintLogoUrl.value;
+          qrLogo.src = qrPrintLogo.value;
           qrLogo.classList.add("qr-logo");
           qrLogo.style.width = "58%";
           qrLogo.style.margin = "0 0 100px 0";
@@ -335,22 +335,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const qrContainer = document.getElementById("qr-container");
 
   const savedLogo = localStorage.getItem("qrPrintLogo");
-  const qrLogo = document.getElementById("qrPrintLogoUrl");
+  const qrLogo = document.getElementById("qrPrintLogo");
+  const qrPrintLogoUploadButton = document.getElementById("qrPrintLogoUploadLabel");
+  const qrPrintLogoUpload = document.getElementById("qrPrintLogoUpload");
 
   if (savedColor) {
     colorPicker.value = savedColor;
   }
 
+  const imageInput = document.getElementById('imageInput');
+  const qrPrintLogo = document.getElementById('qrPrintLogo');
+
+  // Load stored Base64 data into field on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const storedLogo = localStorage.getItem('qrPrintLogo');
+    if (storedLogo) {
+      qrPrintLogo.value = storedLogo;
+    }
+  });
+
+  // Convert image to Base64 and update both fields
+  qrPrintLogoUpload.addEventListener('change', () => {
+    const file = qrPrintLogoUpload.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result;
+      qrPrintLogo.value = base64;
+
+      // Save to localStorage
+      localStorage.setItem('qrPrintLogo', base64);
+
+      qrPrintLogoUploadButton.style.display = "none";
+      qrPrintLogoUpload.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  });
+
   if (savedLogo) {
-    qrPrintLogoUrl.value = savedLogo;
+    qrPrintLogo.value = savedLogo;
   }
 
-  qrPrintLogoUrl?.addEventListener("input", () => {
-    if (qrPrintLogoUrl.value.trim()) {
-      localStorage.setItem("qrPrintLogo", qrPrintLogoUrl.value);
+  qrPrintLogo?.addEventListener("input", () => {
+    if (qrPrintLogo.value.trim()) {
+      localStorage.setItem("qrPrintLogo", qrPrintLogo.value);
+      qrPrintLogoUploadButton.style.display = "none";
+      qrPrintLogoUpload.style.display = "none";
     }
-    else if (!qrPrintLogoUrl.value || qrPrintLogoUrl.value.trim() === "") {
+    else if (!qrPrintLogo.value || qrPrintLogo.value.trim() === "") {
       localStorage.removeItem("qrPrintLogo");
+      qrPrintLogoUploadButton.style.display = "";
+      qrPrintLogoUpload.style.display = "";
     }
 
   });

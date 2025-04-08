@@ -21,9 +21,6 @@
       <button onclick="navigateHome()" title="Navigate to home page">
         <i class="fa-solid fa-house"></i>
       </button>
-      <button onclick="navigateSplit()" title="CSV file spliter">
-        <i class="fas fa-columns"></i>
-      </button>
       <button onclick="refreshPage()" title="Refresh Page">
         <i class="fas fa-sync-alt"></i>
       </button>
@@ -31,41 +28,68 @@
 
     <div class="container">
       <h2>QR Codes Tool</h2>
-      <p>Generate codes and QR codes based on your entries.</p>
+      <p>Generate QR codes based on your entries:</p>
 
       <div class="buttonsContainer">
-        <input
-          type="number"
-          id="total-count"
-          title="Use it to specify how many QR codes will be generated."
-          placeholder="Count (Up to 100 for low latency)"
-        />
-        <input
-          type="number"
-          id="digits-count"
-          title="Use it to specify how many digits the generated QR codes will consist of."
-          placeholder="Number of digits (e.g. 5)"
-        />
-        <input
-          type="text"
-          id="prefix"
-          title="Use it to convert 'content' to 'PREFIXcontent' when QR code generation happens."
-          placeholder="Add prefix (optional)"
-        />
+        <div style="display: none !important; display: flex; flex-direction: column;"> 
+          <input
+            type="number"
+            id="total-count"
+            title="Use it to specify how many QR codes will be generated."
+            placeholder="Count (Up to 100 for low latency)"
+          />
+          <input
+            type="number"
+            id="digits-count"
+            title="Use it to specify how many digits the generated QR codes will consist of."
+            placeholder="Number of digits (e.g. 5)"
+          />
+          <input
+            type="text"
+            id="prefix"
+            title="Use it to convert 'content' to 'PREFIXcontent' when QR code generation happens."
+            placeholder="Add prefix (optional)"
+          />
+        </div>
         <input
           type="text"
           id="manual-codes"
-          title="Use it to manually generate a list to QR codes via an list type of input. e.g. 'QRcontent1,QRcontent2,QRcontent3'"
+          title="Use it to generate QR codes using a manually input list. e.g. 'QRcontent1,QRcontent2,QRcontent3'"
           placeholder="Manual list entry"
         />
-        <input
-          type="url"
-          id="qrPrintLogoUrl"
-          title="Paste your image in a base64 format e.g. 'data:image/png;base64,iVBORw0...'"
-          placeholder="Enter logo image URL in base64 format (optional)"
-        />
+
+        <hr>
+        <p>Define the output images' style:</p>
+        <div class="buttonsContainerHorizontal">  
+          <label
+            for="qrPrintLogoUpload"
+            class="file-button"
+            id="qrPrintLogoUploadLabel"
+            title="Upload logo image file (optional)"
+          >
+            <i
+              class="fa-solid fa-upload"
+              id="uploadIcon"
+              style="margin-right: 10px"
+            ></i>
+            Upload logo image
+          </label>
+          <input
+            type="file"
+            id="qrPrintLogoUpload"
+            accept="image/*"
+          />
+
+          <input
+            type="url"
+            id="qrPrintLogo"
+            title="Paste your image in a base64 format (optional) e.g. 'data:image/png;base64,iVBORw0...'"
+            placeholder="or paste image in base64 format"
+          />
+        </div>
+
         <div class="color-picker-container" id="color-picker-container">
-          <label for="color-picker">Choose QR code background color:</label>
+          <label for="color-picker" style="cursor: pointer;">Choose background color:</label>
           <input
             class="color-square"
             type="color"
@@ -75,6 +99,8 @@
           />
         </div>
 
+        <hr>
+
         <button id="generateList" onclick="generateMultipleQRCodes()">
           <i 
             class="fas fa-qrcode" 
@@ -82,7 +108,7 @@
           </i>
           Generate QRs
         </button>
-        <button id="export-csv-button" onclick="exportQRCodeAsCSV()" disabled>
+        <button id="export-csv-button" style="display: none;" onclick="exportQRCodeAsCSV()" disabled>
           <i
             class="fa-solid fa-download"
             id="uploadIcon"
